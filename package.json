@@ -1,0 +1,33 @@
+{
+  "name": "ra-data-dexie",
+  "version": "1.0.0",
+  "description": "Experimental React-Admin using Dexie (IndexedDB)",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tykoth/ra-data-dexie.git"
+  },
+  "keywords": [
+    "reactjs",
+    "react",
+    "react-admin",
+    "local",
+    "indexeddb"
+  ],
+  "author": "Thiago Bocchile",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tykoth/ra-data-dexie/issues"
+  },
+  "homepage": "https://github.com/tykoth/ra-data-dexie#readme",
+
+"scripts": {
+  "build": "yarn run build-cjs && yarn run build-esm",
+  "build-cjs": "rimraf ./lib && tsc",
+  "build-esm": "rimraf ./esm && tsc --outDir esm --module es2015",
+  "watch": "rimraf ./lib && tsc --watch"
+},
+"dependencies": {
+  "dexie": "^2.0.4"
+}
+}
