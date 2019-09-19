@@ -32,42 +32,31 @@ export default (databaseName, databaseVersion, databaseStores) => {
 
 
       case DELETE:
-
+        db.table(resource).delete(parseInt(params.id)).then((data) => {
+          console.log(data);
+          alert("OI");
+          resolve({ data });
+        });
         break;
 
 
       case GET_ONE:
-        // alert("OK");
-        // console.log(db.table(resource).schema.instanceTemplate);
-        // alert("OK");
         db.table(resource).get(parseInt(params.id)).then((data) => {
-          // console.log(data);
-          // alert("OI");
           resolve({ data });
         });
-
-
         break;
 
       case CREATE:
-
         db.table(resource)
           .add(params.data)
           .then((id) => {
             resolve(params)
           });
-
-        // db.table(this.tableName)
         break;
 
 
       case UPDATE:
-        // alert("UPDATE");
-        // console.log(params);
-        // return false;
         db.table(resource).update(params.data.id, params.data).then((updated) => {
-          // console.log(updated);
-          // alert('update made');
           resolve(params);
         });
 
@@ -76,8 +65,9 @@ export default (databaseName, databaseVersion, databaseStores) => {
       case GET_LIST:
       case GET_MANY:
       case GET_MANY_REFERENCE:
-        db.table(resource).count((count) => {
+          const { page, perPage } = params.pagination;
 
+        db.table(resource).count((count) => {
           let collection = db.table(resource);
           collection
             .offset(0)
@@ -88,7 +78,7 @@ export default (databaseName, databaseVersion, databaseStores) => {
               resolve({
                 data: data,
                 total: count,
-                page: 1,
+                page: page,
                 totalCount: count,
               })
             })
