@@ -74,7 +74,7 @@ export default (databaseName, databaseVersion, databaseStores) => {
           let collection = db.table(resource);
           collection = collection.orderBy(field)
 
-          if(order === 'desc'){
+          if(order.toLowerCase() === 'desc'){
             collection = collection.reverse();
           }
           
