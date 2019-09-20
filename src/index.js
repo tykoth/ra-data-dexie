@@ -73,17 +73,12 @@ export default (databaseName, databaseVersion, databaseStores) => {
 
           let collection = db.table(resource);
           collection = collection.orderBy(field)
-  
 
-          
-          
           if(order === 'desc'){
             collection = collection.reverse();
           }
           
           collection
-
-          let collection = db.table(resource);
           .offset(offset)
           .limit(perPage)
           .toArray()
