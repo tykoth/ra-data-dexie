@@ -22,6 +22,7 @@ export default (databaseName, databaseVersion, databaseStores) => {
 
   const db = new Dexie(databaseName);
   // db.delete();
+  alert('db online');
   db.version(databaseVersion).stores(databaseStores);
 
   return (type, resource, params) => new Promise((resolve, reject) => {
@@ -65,16 +66,26 @@ export default (databaseName, databaseVersion, databaseStores) => {
       case GET_LIST:
       case GET_MANY:
       case GET_MANY_REFERENCE:
-          const { page, perPage } = params.pagination;
-
+        const { page, perPage } = params.pagination;
+        const { field, order } = params.sort;
         db.table(resource).count((count) => {
+
           let collection = db.table(resource);
+          collection = collection.orderBy(field)
+  
+          if(order === 'desc'){
+            collection = collection.reverse();
+          }
+          
           collection
-            .offset(0)
-            .limit(100)
-            .toArray()
+
+          let collection = db.table(resource);
+          .offset(params.offset)
+          .limit(params.limit)
+          .toArray()
             .then((data) => {
-              console.log(data);
+
+              // console.log(data);
               resolve({
                 data: data,
                 total: count,
