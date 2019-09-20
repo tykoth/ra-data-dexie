@@ -68,11 +68,15 @@ export default (databaseName, databaseVersion, databaseStores) => {
       case GET_MANY_REFERENCE:
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
+        const offset = (page !== 0) ? page * perPage : 0;
         db.table(resource).count((count) => {
 
           let collection = db.table(resource);
           collection = collection.orderBy(field)
   
+
+          
+          
           if(order === 'desc'){
             collection = collection.reverse();
           }
@@ -80,8 +84,8 @@ export default (databaseName, databaseVersion, databaseStores) => {
           collection
 
           let collection = db.table(resource);
-          .offset(params.offset)
-          .limit(params.limit)
+          .offset(offset)
+          .limit(perPage)
           .toArray()
             .then((data) => {
 
