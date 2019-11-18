@@ -1,6 +1,6 @@
 {
   "name": "ra-data-dexie",
-  "version": "1.2.5",
+  "version": "1.2.4",
   "description": "Experimental React-Admin data provider using Dexie (IndexedDB)",
   "keywords": [
     "indexeddb",
@@ -16,6 +16,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tykoth/ra-data-dexie.git"
+  },
+  "publishConfig": { 
+    "registry": "https://npm.pkg.github.com/" 
   },
   "license": "MIT",
   "author": "Thiago Bocchile <tykoth@gmail.com>",
