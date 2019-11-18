@@ -68,8 +68,11 @@ export default (databaseName, databaseVersion, databaseStores) => {
       case GET_MANY_REFERENCE:
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
-        const offset = (page !== 0) ? page * perPage : 0;
-        db.table(resource).count((count) => {
+        
+        const offset = (page > 1) ? (page-1) * perPage : 0;
+        
+        console.log([params, offset]);
+        db.table(resource).count((count) => { 
 
           let collection = db.table(resource);
           collection = collection.orderBy(field)
