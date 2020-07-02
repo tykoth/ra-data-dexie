@@ -1,6 +1,6 @@
 {
   "name": "ra-data-dexie",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Experimental React-Admin data provider using Dexie (IndexedDB)",
   "keywords": [
     "indexeddb",
