@@ -7,9 +7,8 @@ import {
   UPDATE,
   DELETE,
   // fetchUtils,
-} from 'react-admin';
-import Dexie from 'dexie';
-
+} from "react-admin";
+import Dexie from "dexie";
 
 /**
  * @param {string} type Request type, e.g GET_LIST
@@ -19,90 +18,85 @@ import Dexie from 'dexie';
  */
 
 export default (databaseName, databaseVersion, databaseStores) => {
-
   const db = new Dexie(databaseName);
   db.version(databaseVersion).stores(databaseStores);
 
-  return (type, resource, params) => new Promise((resolve, reject) => {
- 
-    db.open();
-    
-    switch (type) {
+  return (type, resource, params) =>
+    new Promise((resolve, reject) => {
+      db.open();
 
-
-      case DELETE:
-        db.table(resource).delete(parseInt(params.id)).then((data) => {
-          console.log(data);
-          alert("OI");
-          resolve({ data });
-        });
-        break;
-
-
-      case GET_ONE:
-        db.table(resource).get(parseInt(params.id)).then((data) => {
-          resolve({ data });
-        });
-        break;
-
-      case CREATE:
-        db.table(resource)
-          .add(params.data)
-          .then((id) => {
-            resolve(params)
-          });
-        break;
-
-
-      case UPDATE:
-        db.table(resource).update(params.data.id, params.data).then((updated) => {
-          resolve(params);
-        });
-
-        break;
-
-      case GET_LIST:
-      case GET_MANY:
-      case GET_MANY_REFERENCE:
-        const { page, perPage } = params.pagination;
-        const { field, order } = params.sort;
-        
-        const offset = (page > 1) ? (page-1) * perPage : 0;
-        
-        console.log([params, offset]);
-        db.table(resource).count((count) => { 
-
-          let collection = db.table(resource);
-          collection = collection.orderBy(field)
-
-          if(order.toLowerCase() === 'desc'){
-            collection = collection.reverse();
-          }
-          
-          collection
-          .offset(offset)
-          .limit(perPage)
-          .toArray()
+      switch (type) {
+        case DELETE:
+          db.table(resource)
+            .delete(parseInt(params.id))
             .then((data) => {
+              console.log(data);
+              alert("OI");
+              resolve({ data });
+            });
+          break;
 
-              // console.log(data);
-              resolve({
-                data: data,
-                total: count,
-                page: page,
-                totalCount: count,
-              })
-            })
-        })
+        case GET_ONE:
+          db.table(resource)
+            .get(parseInt(params.id))
+            .then((data) => {
+              resolve({ data });
+            });
+          break;
 
-        break;
+        case CREATE:
+          db.table(resource)
+            .add(params.data)
+            .then((id) => {
+              resolve(params);
+            });
+          break;
 
+        case UPDATE:
+          db.table(resource)
+            .update(params.data.id, params.data)
+            .then((updated) => {
+              resolve(params);
+            });
 
+          break;
 
-      default:
+        case GET_LIST:
+        case GET_MANY:
+        case GET_MANY_REFERENCE:
+          const { page, perPage } = params.pagination;
+          const { field, order } = params.sort;
 
-        break;
-    }
+          const offset = page > 1 ? (page - 1) * perPage : 0;
 
-  })
-}
+          console.log([params, offset]);
+          db.table(resource).count((count) => {
+            let collection = db.table(resource);
+            collection = collection.orderBy(field);
+
+            if (order.toLowerCase() === "desc") {
+              collection = collection.reverse();
+            }
+
+            collection
+              .offset(offset)
+              .limit(perPage)
+              .toArray()
+              .then((data) => {
+                // console.log(data);
+                resolve({
+                  data: data,
+                  total: count,
+                  page: page,
+                  totalCount: count,
+                });
+              });
+          });
+
+          break;
+
+        default:
+          break;
+      }
+    });
+};
