@@ -21,8 +21,6 @@ import Dexie from 'dexie';
 export default (databaseName, databaseVersion, databaseStores) => {
 
   const db = new Dexie(databaseName);
-  // db.delete();
-  alert('db online');
   db.version(databaseVersion).stores(databaseStores);
 
   return (type, resource, params) => new Promise((resolve, reject) => {
